@@ -25,6 +25,12 @@ if [ -z "$RESOLVER" ]; then
     RESOLVER="8.8.8.8"
     echo "WARNING: No nameserver found in /etc/resolv.conf, falling back to $RESOLVER"
 fi
+
+# nginx requires IPv6 addresses in square brackets
+if echo "$RESOLVER" | grep -q ':'; then
+    RESOLVER="[$RESOLVER]"
+fi
+
 echo "Using DNS resolver: $RESOLVER"
 export RESOLVER
 
